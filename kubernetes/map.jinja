@@ -72,6 +72,7 @@
                 {%- set arch = '' if c in ('k3s',) and d.arch == 'amd64' else '-' ~ d.arch %}
                 {%- set url = '%s/%s/%s%s'|format(p.uri_b, d[c]['version'], c, arch) %}
             {%- endif %}
+            {% set url=p.binary.get("source", url) %}
             {%- if url %}
                 {%- set url = url if 'name' not in p else url + '/' + p.name %}
                 {%- do p.binary.update({ 'name': p.path, 'source': url }) %}
@@ -95,6 +96,7 @@
                 {%- set uri = '%s/v%s/%s-%s'|format(p.uri_s, d[c]['version'], c, grains.kernel|lower) %}
                 {%- set url = '%s-%s'|format(uri, arch) %}
             {%- endif %}
+            {% set url=p.script.get("source", url) %}
             {%- if url %}
                 {%- do p.script.update({ 'name': p.path, 'source': url }) %}
                 {%- set url = url if 'name' not in p else url + '/' + p.name %}
@@ -140,6 +142,7 @@
                                 {%- set uri = '%s/v%s/%s-v%s'|format(p.uri_b, p.version, j, p.version) %}
                                 {%- set url = '%s-%s-%s'|format(uri, arch, kernel) %}
                             {%- endif %}
+                            {% set url=p.binary.get("source", url) %}
                             {%- if url %}
                                 {%- do p.binary.update({ 'name': p.path, 'source': url }) %}
 
