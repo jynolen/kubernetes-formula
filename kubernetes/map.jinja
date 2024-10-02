@@ -234,8 +234,8 @@
                             {%- do p.update({ 'path': '%s%sbin%s'|format(p.path, d.div, d.div) }) %}
                         {%- endif %}
                     {%- endif %}
-
-                    {%- if url and not p.archive.get("source") %}
+                    {%- set url=p.archive.get("source", url) -%}
+                    {%- if url %}
                         {%- do p.archive.update({ 'name': p.path, 'source': url }) %}
                         {%- if 'source_hash' in p.archive and p.archive.source_hash %}
                             {%- do p.archive.update({'source_hash': p.archive.source_hash}) %}
@@ -281,7 +281,8 @@
                         {%- set uri = '%s/edge-%s/linkerd2-cli-edge'|format(p.uri_b, p.version) %}
                         {%- set url = '%s-%s-%s%s%s'|format(uri, p.version, grains.kernel|lower, arch, suffix) %}
                     {%- endif %}
-                    {%- if url and not p.binary.get("source") %}
+                    {%- set url=p.binary.get("source", url) -%}
+                    {%- if url %}
                         {%- do p.binary.update({ 'name': p.path, 'source': url }) %}
 
                         {%- if 'source_hash' in p.binary and p.binary.source_hash %}
